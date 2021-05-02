@@ -1,0 +1,60 @@
+import queue
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def printLevelATNewLine(root):
+    if root==None:
+        return None
+    q=queue.Queue()
+    q.put(root)
+    q.put(None)
+    while(not(q.empty())):
+        current=q.get()
+        if(current!=None):
+        	print(current.data,end=' ')
+        if(current==None):
+            if(q.empty()==True):
+                break
+            q.put(None)
+            print()
+        if(current!=None and current.left!=None):
+            q.put(current.left)
+        if(current!=None and current.right!=None):
+            q.put(current.right)
+        
+            
+        
+
+def buildLevelTree(levelorder):
+    index = 0
+    length = len(levelorder)
+    if length<=0 or levelorder[0]==-1:
+        return None
+    root = BinaryTreeNode(levelorder[index])
+    index += 1
+    q = queue.Queue()
+    q.put(root)
+    while not q.empty():
+        currentNode = q.get()
+        leftChild = levelorder[index]
+        index += 1
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+        rightChild = levelorder[index]
+        index += 1
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+    return root
+
+# Main
+#n=int(input())
+levelOrder = [int(i) for i in input().strip().split()]
+root = buildLevelTree(levelOrder)
+printLevelATNewLine(root)
